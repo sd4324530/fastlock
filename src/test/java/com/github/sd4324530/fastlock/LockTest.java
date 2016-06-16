@@ -1,5 +1,6 @@
 package com.github.sd4324530.fastlock;
 
+import com.github.sd4324530.fastlock.redis.JedisFastLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.HostAndPort;
@@ -16,7 +17,7 @@ public class LockTest {
 
     private static final Logger log = LoggerFactory.getLogger(LockTest.class);
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Set<HostAndPort> hostAndPortSet = new HashSet<HostAndPort>();
         hostAndPortSet.add(new HostAndPort("172.172.178.59", 7000));
         hostAndPortSet.add(new HostAndPort("172.172.178.59", 8000));
@@ -33,14 +34,28 @@ public class LockTest {
         hostAndPortSet.add(new HostAndPort("172.172.178.60", 9002));
         final JedisCluster cluster = new JedisCluster(hostAndPortSet);
 
-        for(int i = 0; i < 10; i++) {
+
+        FastLock fastLock = new JedisFastLock(cluster, "testKey");
+        try {
+            if (fastLock.tryLock()) {
+                log.debug("获取锁...");
+                TimeUnit.SECONDS.sleep(1);
+            }
+        } catch (Exception e) {
+            log.error("异常", e);
+        } finally {
+            fastLock.unlock();
+        }
+
+        for (int i = 0; i < 10; i++) {
             new Thread(new Runnable() {
                 FastLock fastLock = new JedisFastLock(cluster, "testKey123123123");
+
                 @Override
                 public void run() {
                     while (true) {
                         try {
-                            if(fastLock.tryLock()) {
+                            if (fastLock.tryLock()) {
                                 log.debug("获取锁...");
                                 TimeUnit.SECONDS.sleep(1);
                             }

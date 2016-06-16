@@ -1,5 +1,7 @@
-package com.github.sd4324530.fastlock;
+package com.github.sd4324530.fastlock.redis;
 
+import com.github.sd4324530.fastlock.FastLock;
+import com.github.sd4324530.fastlock.FastLockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisCluster;
