@@ -21,6 +21,9 @@ public class JedisFastLock implements FastLock {
 
     private final String lockKey;
 
+    /**
+     * 用于记录各个线程获取锁的超时时间，用于判断是否需要主动释放锁
+     */
     private static final ThreadLocal<Long> threadCache = new ThreadLocal<Long>();
 
     /**
@@ -83,6 +86,8 @@ public class JedisFastLock implements FastLock {
                 Long del = this.jedis.del(this.lockKey);
                 log.debug("主动释放锁成功:{}", del);
             }
+        } else {
+            log.debug("已经超时，本次锁已经自动释放....");
         }
     }
 
