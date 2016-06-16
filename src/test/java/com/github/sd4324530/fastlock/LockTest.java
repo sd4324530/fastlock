@@ -40,11 +40,14 @@ public class LockTest {
                 @Override
                 public void run() {
                     while (true) {
+                        fastLock.lock();
                         try {
-                            if (fastLock.tryLock()) {
-                                log.debug("获取锁...");
-                                TimeUnit.SECONDS.sleep(1);
-                            }
+                            log.debug("获取锁...");
+                            TimeUnit.SECONDS.sleep(1);
+//                            if (fastLock.tryLock()) {
+//                                log.debug("获取锁...");
+//                                TimeUnit.SECONDS.sleep(1);
+//                            }
                         } catch (Exception e) {
                             log.error("异常", e);
                         } finally {

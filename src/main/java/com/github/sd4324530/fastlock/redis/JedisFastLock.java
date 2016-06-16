@@ -102,7 +102,6 @@ public class JedisFastLock implements FastLock {
 
 
     private void getLock() {
-        log.debug("开始获取锁....");
         long value = System.currentTimeMillis() + this.lockTimeout;
         Long setnx = this.jedis.setnx(this.lockKey, String.valueOf(value));
         //设置锁失败，锁已经存在
