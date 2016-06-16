@@ -35,12 +35,14 @@ public class JedisFastLock implements FastLock {
 
     @Override
     public void lock() {
-        getLock();
+        while(!tryLock()) {
+            waitMilli();
+        }
     }
 
     @Override
     public void lockInterruptibly() throws InterruptedException {
-        getLock();
+        lock();
     }
 
     @Override
@@ -66,6 +68,7 @@ public class JedisFastLock implements FastLock {
             } else {
                 return false;
             }
+            waitMilli();
         } while (true);
     }
 
@@ -143,6 +146,17 @@ public class JedisFastLock implements FastLock {
         //设置锁成功，同时获取锁
         else {
             threadCache.set(value);
+        }
+    }
+
+    /**
+     * 休眠1毫秒
+     */
+    private void waitMilli() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            log.error("休眠异常", e);
         }
     }
 }

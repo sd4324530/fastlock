@@ -34,23 +34,9 @@ public class LockTest {
         hostAndPortSet.add(new HostAndPort("172.172.178.60", 9002));
         final JedisCluster cluster = new JedisCluster(hostAndPortSet);
 
-
-        FastLock fastLock = new JedisFastLock(cluster, "testKey");
-        try {
-            if (fastLock.tryLock()) {
-                log.debug("获取锁...");
-                TimeUnit.SECONDS.sleep(1);
-            }
-        } catch (Exception e) {
-            log.error("异常", e);
-        } finally {
-            fastLock.unlock();
-        }
-
         for (int i = 0; i < 10; i++) {
             new Thread(new Runnable() {
                 FastLock fastLock = new JedisFastLock(cluster, "testKey123123123");
-
                 @Override
                 public void run() {
                     while (true) {
