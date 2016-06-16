@@ -7,7 +7,7 @@
     <groupId>com.github.sd4324530</groupId>
     <artifactId>fastlock</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>fastweixin</name>
+    <name>fastlock</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -38,7 +38,7 @@
 
 
     <build>
-        <finalName>fastweixin</finalName>
+        <finalName>fastlock</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -61,7 +61,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <version>2.10.4</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
