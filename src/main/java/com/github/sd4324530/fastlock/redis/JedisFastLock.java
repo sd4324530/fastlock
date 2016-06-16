@@ -24,7 +24,7 @@ public class JedisFastLock implements FastLock {
     private static final ThreadLocal<Long> threadCache = new ThreadLocal<Long>();
 
     /**
-     * 默认锁超时时间为1秒，防止出现死锁
+     * 默认锁超时时间为2秒，防止出现死锁
      */
     private long lockTimeout = 2000;
 
@@ -93,7 +93,7 @@ public class JedisFastLock implements FastLock {
         return threadCache.get();
     }
 
-    void setTimeout(Long timeout) {
+    public void setTimeout(Long timeout) {
         this.lockTimeout = timeout;
     }
 
@@ -118,11 +118,9 @@ public class JedisFastLock implements FastLock {
                         if(timeout2 != timeout) {
                             throw new FastLockException("锁未被释放，无法获取锁！");
                         } else {
-                            log.debug("获取锁成功1");
                             threadCache.set(newTimeout);
                         }
                     } else {
-                        log.debug("获取锁成功2");
                         threadCache.set(newTimeout);
                     }
                 }
@@ -138,14 +136,12 @@ public class JedisFastLock implements FastLock {
                 if(null != time2) {
                     throw new FastLockException("锁未被释放，无法获取锁！");
                 } else {
-                    log.debug("获取锁成功3");
                     threadCache.set(newTimeout);
                 }
             }
         }
         //设置锁成功，同时获取锁
         else {
-            log.debug("获取锁成功4");
             threadCache.set(value);
         }
     }
