@@ -101,6 +101,11 @@ public class JedisFastLock implements FastLock {
         return threadCache.get();
     }
 
+    @Override
+    public String getKey() {
+        return this.lockKey;
+    }
+
     public void setTimeout(Long timeout) {
         this.lockTimeout = timeout;
     }

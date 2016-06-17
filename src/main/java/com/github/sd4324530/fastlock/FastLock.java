@@ -14,4 +14,10 @@ public interface FastLock extends Lock {
      * @return 超时时间
      */
     Long getLockTimeout();
+
+    /**
+     * 获取当前锁的Key
+     * @return key
+     */
+    String getKey();
 }
