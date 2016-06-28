@@ -5,7 +5,7 @@
 
 ```java
 Set<HostAndPort> hostAndPortSet = new HashSet<HostAndPort>();
-hostAndPortSet.add(new HostAndPort("172.172.178.59", 7000));
+hostAndPortSet.add(new HostAndPort("127.0.0.1", 6379));
 final FastLockManager manager = new JedisFastLockManager(hostAndPortSet);
 //兼容jdk Lock接口，使用方便，无缝接入
 Lock lock = manager.getLock("testKey");
