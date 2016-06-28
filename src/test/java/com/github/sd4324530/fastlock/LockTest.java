@@ -1,10 +1,9 @@
 package com.github.sd4324530.fastlock;
 
-import com.github.sd4324530.fastlock.redis.JedisFastLock;
+import com.github.sd4324530.fastlock.redis.JedisFastLockManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,11 +31,11 @@ public class LockTest {
         hostAndPortSet.add(new HostAndPort("172.172.178.60", 9000));
         hostAndPortSet.add(new HostAndPort("172.172.178.60", 9001));
         hostAndPortSet.add(new HostAndPort("172.172.178.60", 9002));
-        final JedisCluster cluster = new JedisCluster(hostAndPortSet);
+        final FastLockManager manager = new JedisFastLockManager(hostAndPortSet);
 
         for (int i = 0; i < 10; i++) {
             new Thread(new Runnable() {
-                FastLock fastLock = new JedisFastLock(cluster, "testKey123123123");
+                FastLock fastLock = manager.getLock("testKey123123123");
                 @Override
                 public void run() {
                     while (true) {
