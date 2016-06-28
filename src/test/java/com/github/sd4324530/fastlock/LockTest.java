@@ -8,6 +8,7 @@ import redis.clients.jedis.HostAndPort;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 /**
  * @author peiyu
@@ -35,7 +36,7 @@ public class LockTest {
 
         for (int i = 0; i < 10; i++) {
             new Thread(new Runnable() {
-                FastLock fastLock = manager.getLock("testKey123123123");
+                Lock fastLock = manager.getLock("testKey123123123");
                 @Override
                 public void run() {
                     while (true) {
